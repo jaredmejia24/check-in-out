@@ -5,7 +5,7 @@ const {
   getOneRegistration,
   markEntryTime,
   markExitTime,
-  cancelRegistration
+  cancelRegistration,
 } = require("../controllers/registration.controller");
 
 const registrationRouter = express.Router();
@@ -16,8 +16,8 @@ registrationRouter.get("/:id", getOneRegistration);
 
 registrationRouter.post("/", markEntryTime);
 
-registrationRouter.patch("/:id", markExitTime)
+registrationRouter.patch("/:id", markExitTime);
 
-registrationRouter.delete('/:id', cancelRegistration)
+registrationRouter.delete("/:id", cancelRegistration);
 
 module.exports = { registrationRouter };

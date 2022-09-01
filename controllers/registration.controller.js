@@ -70,6 +70,13 @@ const markExitTime = async (req, res) => {
       });
     }
 
+    if(updatedRegistration.status === "cancelled"){
+      return res.status(400).json({
+        status: "error",
+        message: "registration is cancelled",
+      });
+    }
+
     await updatedRegistration.update({ exitTime, status: "out" });
 
     res.status(200).json({
@@ -93,6 +100,13 @@ const cancelRegistration = async (req, res) => {
       return res.status(404).json({
         status: "error",
         message: "Registration not found",
+      });
+    }
+
+    if(deletedRegistration.status === "out"){
+      return res.status(400).json({
+        status: "error",
+        message: "registration is out",
       });
     }
 
