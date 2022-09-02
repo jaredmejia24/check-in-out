@@ -17,16 +17,7 @@ const getAllRegistrations = async (req, res) => {
 
 const getOneRegistration = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const registration = await Registration.findOne({ where: { id } });
-
-    if (!registration) {
-      return res.status(404).json({
-        status: "error",
-        message: "Registration not found",
-      });
-    }
+    const { registration } = req;
 
     res.status(200).json({
       status: "success",
@@ -58,19 +49,11 @@ const markEntryTime = async (req, res) => {
 
 const markExitTime = async (req, res) => {
   try {
-    const { id } = req.params;
     const { exitTime } = req.body;
 
-    const updatedRegistration = await Registration.findOne({ where: { id } });
+    const { registration: updatedRegistration } = req;
 
-    if (!updatedRegistration) {
-      return res.status(404).json({
-        status: "error",
-        message: "registration not found",
-      });
-    }
-
-    if(updatedRegistration.status === "cancelled"){
+    if (updatedRegistration.status === "cancelled") {
       return res.status(400).json({
         status: "error",
         message: "registration is cancelled",
@@ -92,18 +75,9 @@ const markExitTime = async (req, res) => {
 
 const cancelRegistration = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { registration: deletedRegistration } = req;
 
-    const deletedRegistration = await Registration.findOne({ where: { id } });
-
-    if (!deletedRegistration) {
-      return res.status(404).json({
-        status: "error",
-        message: "Registration not found",
-      });
-    }
-
-    if(deletedRegistration.status === "out"){
+    if (deletedRegistration.status === "out") {
       return res.status(400).json({
         status: "error",
         message: "registration is out",
