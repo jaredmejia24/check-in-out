@@ -1,4 +1,5 @@
 const { Registration } = require("../model/registration.model");
+const { validationResult } = require("express-validator");
 
 const userExist = async (req, res, next) => {
   try {
@@ -20,4 +21,16 @@ const userExist = async (req, res, next) => {
   }
 };
 
-module.exports = { userExist };
+const checkErrors = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      status: "Error",
+      errors: errors.array(),
+    });
+  }
+
+  next();
+};
+
+module.exports = { userExist, checkErrors };
