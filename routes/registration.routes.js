@@ -24,14 +24,22 @@ registrationRouter.get("/:id", userExist, getOneRegistration);
 
 registrationRouter.post(
   "/",
-  body("entranceTime").isDate().notEmpty(),
+  body("entranceTime")
+    .isDate()
+    .withMessage("entranceTime needs to be a date")
+    .notEmpty()
+    .withMessage("entraceTime cannot be empty"),
   checkErrors,
   markEntryTime
 );
 
 registrationRouter.patch(
   "/:id",
-  body("exitTime").isDate().notEmpty(),
+  body("exitTime")
+    .isDate()
+    .withMessage("exitTime needs to be a date")
+    .notEmpty()
+    .withMessage("exitTime cannot be empty"),
   checkErrors,
   userExist,
   markExitTime
